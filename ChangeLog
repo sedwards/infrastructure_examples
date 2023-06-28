@@ -1,6 +1,11 @@
-Terraform Scaffolding for s3, certificates, etc
+Expand out Go Credit Card Processor Example
 
-- Documenting Challenge Requirements
+commit 64f4e469ebc36b25511a901633cba6bf3ae19eed
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Tue Jun 27 21:35:14 2023 -0700
+
+    Terraform Scaffolding for s3, certificates, etc
+
 commit 121584cd245070a9555ea9e2a164d4e5532971c8
 Author: Steven Edwards <winehacker@gmail.com>
 Date:   Tue Jun 27 20:22:02 2023 -0700

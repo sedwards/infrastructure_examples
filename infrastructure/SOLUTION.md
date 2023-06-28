@@ -1,21 +1,32 @@
 ### Solution
 
-For a static application I wouldn't use a webserver or container but a CDN distribution 
-such as CloudFront of the static resource served from an Object Store like s3.
+It is a trick question. 
+
+For a purely static application that is publicly facing there should
+be no application scaling, as it should be served and hosted at the edge via CDN
+
+CDN performance can vary depending on the provider and their resources. 
+AWS Cloudfront 
+
+For a static application and webserver would do however I would have the CloudFront 
+Distribution ingest the static content served from an Object Store such as s3.
 
 ### Walk through
 
 Create the following in terraform 
   - create s3bucket(world read/no write)
-	Commands:
-		place index.html in bucket
+    - encrypt s3 volume incase our 'Hello World' is something important
+    - place index.html in bucket
 
-  - create self-signed cert in aws cert manager
+  - upload self-signed cert to aws cert manager
+
   - create cloudfront distribution
 	asscotate self-signed cert
 	register s3bucket as source
+        create WAF to limit access to 80 and 443
 
    TODO:
-	evaluate security
-	evaluate scaling
+    create tests
+    evaluate security
+    evaluate scaling
 

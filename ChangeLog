@@ -1,4 +1,10 @@
-Correctly track terraform state
+Started Working on Certifcate Management for CloudFront
+
+commit 59916dd0c3066ba2337a3aade3a4ae4a20ca9473
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Wed Jun 28 00:31:42 2023 -0700
+
+    Correct track terraform state
 
 commit 559b8d74039b3ea706459bfc79d4d17797341aa1
 Author: Steven Edwards <winehacker@gmail.com>

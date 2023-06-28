@@ -1,5 +1,11 @@
-- Started implementing IAM Policy for s3 bucket to access CloudFront
-- Start working on cleaning up the CC number tests
+Correct minor build issues with various bucket ACLs
+
+commit ab572f51c716f3904438586883e83ca24f9d07f9
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Wed Jun 28 08:35:37 2023 -0700
+
+    - Started implementing IAM Policy for s3 bucket to access CloudFront
+    - Start working on cleaning up the CC number tests
 
 commit 1ef617e04c557d4bd695da2551bc17fa335b3b2a
 Author: Steven Edwards <winehacker@gmail.com>

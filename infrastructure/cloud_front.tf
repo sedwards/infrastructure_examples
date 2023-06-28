@@ -1,10 +1,10 @@
 resource "aws_cloudfront_distribution" "static_http_distribution" {
   origin {
                                # fixme: We can derive this somehow
-    domain_name              = "steven-challenge2.s3.us-east-2.amazonaws.com"
+    domain_name              = "steven-challenge3.s3.us-east-2.amazonaws.com"
     # origin_access_control_id = aws_cloudfront_origin_access_control.default.id
     # s3_origin_config
-    origin_id               = "${aws_s3_bucket.steven-challenge-bucket.bucket}"
+    origin_id               = "${aws_s3_bucket.steven-challenge-bucket3.bucket}"
   }
 
   enabled             = true
@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
     # allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket.bucket}" 
+    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket3.bucket}" 
 
     forwarded_values {
       query_string = false
@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
     path_pattern     = "/content/immutable/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket.bucket}"
+    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket3.bucket}"
 
     forwarded_values {
       query_string = false
@@ -72,7 +72,7 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
     path_pattern     = "/content/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket2.bucket}" 
+    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket3.bucket}" 
 
     forwarded_values {
       query_string = false

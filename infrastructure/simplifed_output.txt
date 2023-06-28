@@ -1,7 +1,9 @@
 .
 ├── bucket.tf
+├── cdn-cf-policy.json
 ├── certificate.tf
 ├── cloud_front.tf
+├── iam.tf
 ├── main.tf
 ├── scratch
 ├── simplifed_output.txt
@@ -17,10 +19,10 @@
 ├── terraform.tfstate.backup
 └── variables.tf
 
-2 directories, 15 files
+2 directories, 17 files
 # aws_acm_certificate.steven-challenge-cert:
 resource "aws_acm_certificate" "steven-challenge-cert" {
-    arn                       = "arn:aws:acm:us-east-2:950224154531:certificate/c2627b9e-d14d-4477-b5c0-e17cb1257425"
+    arn                       = "arn:aws:acm:us-east-2:950224154531:certificate/86021894-6350-43b8-960b-155759302286"
     certificate_body          = <<-EOT
         -----BEGIN CERTIFICATE-----
         MIIF6zCCA9OgAwIBAgIUKQ1Cii+JH7lVG1HPVXDMhK8oweEwDQYJKoZIhvcNAQEL
@@ -58,7 +60,7 @@ resource "aws_acm_certificate" "steven-challenge-cert" {
         -----END CERTIFICATE-----
     EOT
     domain_validation_options = []
-    id                        = "arn:aws:acm:us-east-2:950224154531:certificate/c2627b9e-d14d-4477-b5c0-e17cb1257425"
+    id                        = "arn:aws:acm:us-east-2:950224154531:certificate/86021894-6350-43b8-960b-155759302286"
     key_algorithm             = "RSA_4096"
     not_after                 = "2033-06-25T13:53:51Z"
     not_before                = "2023-06-28T13:53:51Z"
@@ -81,19 +83,20 @@ resource "aws_acm_certificate" "steven-challenge-cert" {
 
 # aws_cloudfront_distribution.static_http_distribution:
 resource "aws_cloudfront_distribution" "static_http_distribution" {
-    arn                            = "arn:aws:cloudfront::950224154531:distribution/E1V2XGN1YIGTQC"
-    caller_reference               = "terraform-20230628140033491400000001"
+    aliases                        = []
+    arn                            = "arn:aws:cloudfront::950224154531:distribution/EO2PL9F9S1Y2W"
+    caller_reference               = "terraform-20230628160959771900000001"
     comment                        = "Some comment"
     default_root_object            = "index.html"
-    domain_name                    = "dpvq7cjcwze0u.cloudfront.net"
+    domain_name                    = "drhmqef9d6zd8.cloudfront.net"
     enabled                        = true
-    etag                           = "E8PW8ZLN7PS6X"
+    etag                           = "E2CDC07EFRK38Z"
     hosted_zone_id                 = "Z2FDTNDATAQYW2"
     http_version                   = "http2"
-    id                             = "E1V2XGN1YIGTQC"
+    id                             = "EO2PL9F9S1Y2W"
     in_progress_validation_batches = 0
     is_ipv6_enabled                = true
-    last_modified_time             = "2023-06-28 14:00:33.833 +0000 UTC"
+    last_modified_time             = "2023-06-28 16:10:00.215 +0000 UTC"
     price_class                    = "PriceClass_200"
     retain_on_delete               = false
     status                         = "Deployed"
@@ -131,7 +134,7 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
         max_ttl                = 86400
         min_ttl                = 0
         smooth_streaming       = false
-        target_origin_id       = "steven-challenge2"
+        target_origin_id       = "steven-challenge3"
         trusted_key_groups     = []
         trusted_signers        = []
         viewer_protocol_policy = "allow-all"
@@ -165,7 +168,9 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
         min_ttl                = 0
         path_pattern           = "/content/immutable/*"
         smooth_streaming       = false
-        target_origin_id       = "steven-challenge2"
+        target_origin_id       = "steven-challenge3"
+        trusted_key_groups     = []
+        trusted_signers        = []
         viewer_protocol_policy = "redirect-to-https"
 
         forwarded_values {
@@ -176,7 +181,8 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
             query_string_cache_keys = []
 
             cookies {
-                forward = "none"
+                forward           = "none"
+                whitelisted_names = []
             }
         }
     }
@@ -196,7 +202,9 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
         min_ttl                = 0
         path_pattern           = "/content/*"
         smooth_streaming       = false
-        target_origin_id       = "steven-challenge2"
+        target_origin_id       = "steven-challenge3"
+        trusted_key_groups     = []
+        trusted_signers        = []
         viewer_protocol_policy = "redirect-to-https"
 
         forwarded_values {
@@ -205,7 +213,8 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
             query_string_cache_keys = []
 
             cookies {
-                forward = "none"
+                forward           = "none"
+                whitelisted_names = []
             }
         }
     }
@@ -214,7 +223,7 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
         connection_attempts = 3
         connection_timeout  = 10
         domain_name         = "steven-challenge2.s3.us-east-2.amazonaws.com"
-        origin_id           = "steven-challenge2"
+        origin_id           = "steven-challenge3"
     }
 
     restrictions {
@@ -235,17 +244,28 @@ resource "aws_cloudfront_distribution" "static_http_distribution" {
     }
 }
 
+# aws_cloudfront_origin_access_identity.oai:
+resource "aws_cloudfront_origin_access_identity" "oai" {
+    caller_reference                = "terraform-20230628154249975900000001"
+    cloudfront_access_identity_path = "origin-access-identity/cloudfront/ECQCOCSZN69JC"
+    comment                         = "example-oai"
+    etag                            = "E2A639QDXMWI58"
+    iam_arn                         = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ECQCOCSZN69JC"
+    id                              = "ECQCOCSZN69JC"
+    s3_canonical_user_id            = "25cf482328fe17f47d68a8f14d2e138140e897885cbba976a6b4a4c4d6df7b65090648a0d46a834e3c812867c7ab4d96"
+}
+
 # aws_kms_key.s3_bucket_key2:
 resource "aws_kms_key" "s3_bucket_key2" {
-    arn                                = "arn:aws:kms:us-east-2:950224154531:key/02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
+    arn                                = "arn:aws:kms:us-east-2:950224154531:key/e68b8e0c-bdbe-4a0f-a3c4-e551b3723028"
     bypass_policy_lockout_safety_check = false
     customer_master_key_spec           = "SYMMETRIC_DEFAULT"
     deletion_window_in_days            = 10
     description                        = "This key is used to encrypt bucket objects"
     enable_key_rotation                = false
-    id                                 = "02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
+    id                                 = "e68b8e0c-bdbe-4a0f-a3c4-e551b3723028"
     is_enabled                         = true
-    key_id                             = "02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
+    key_id                             = "e68b8e0c-bdbe-4a0f-a3c4-e551b3723028"
     key_usage                          = "ENCRYPT_DECRYPT"
     multi_region                       = false
     policy                             = jsonencode(
@@ -269,16 +289,16 @@ resource "aws_kms_key" "s3_bucket_key2" {
     tags_all                           = {}
 }
 
-# aws_s3_bucket.steven-challenge-bucket2:
-resource "aws_s3_bucket" "steven-challenge-bucket2" {
-    acl                         = "private"
-    arn                         = "arn:aws:s3:::steven-challenge2"
-    bucket                      = "steven-challenge2"
-    bucket_domain_name          = "steven-challenge2.s3.amazonaws.com"
-    bucket_regional_domain_name = "steven-challenge2.s3.us-east-2.amazonaws.com"
+# aws_s3_bucket.steven-challenge-bucket3:
+resource "aws_s3_bucket" "steven-challenge-bucket3" {
+    acl                         = "public-read"
+    arn                         = "arn:aws:s3:::steven-challenge3"
+    bucket                      = "steven-challenge3"
+    bucket_domain_name          = "steven-challenge3.s3.amazonaws.com"
+    bucket_regional_domain_name = "steven-challenge3.s3.us-east-2.amazonaws.com"
     force_destroy               = false
     hosted_zone_id              = "Z2O1EMRO9K5GLX"
-    id                          = "steven-challenge2"
+    id                          = "steven-challenge3"
     object_lock_enabled         = false
     region                      = "us-east-2"
     request_payer               = "BucketOwner"
@@ -298,8 +318,7 @@ resource "aws_s3_bucket" "steven-challenge-bucket2" {
             bucket_key_enabled = false
 
             apply_server_side_encryption_by_default {
-                kms_master_key_id = "arn:aws:kms:us-east-2:950224154531:key/02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
-                sse_algorithm     = "aws:kms"
+                sse_algorithm = "AES256"
             }
         }
     }
@@ -310,29 +329,46 @@ resource "aws_s3_bucket" "steven-challenge-bucket2" {
     }
 }
 
-# aws_s3_bucket_object.static-application:
-resource "aws_s3_bucket_object" "static-application" {
-    acl                    = "private"
-    bucket                 = "steven-challenge2"
+# aws_s3_bucket_object.static-content:
+resource "aws_s3_bucket_object" "static-content" {
+    acl                    = "public-read"
+    bucket                 = "steven-challenge3"
     bucket_key_enabled     = false
     content_type           = "binary/octet-stream"
-    etag                   = "a9b9b985caeb806dc4b84221cd543c7f"
+    etag                   = "5c711ef5beb7be942f2c9ca58ee86af9"
     force_destroy          = false
-    id                     = "arn:aws:kms:us-east-2:950224154531:key/02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
-    key                    = "arn:aws:kms:us-east-2:950224154531:key/02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
-    kms_key_id             = "arn:aws:kms:us-east-2:950224154531:key/02635c06-a7db-4126-a1a9-b2fbb4bc4ac8"
-    metadata               = {}
-    server_side_encryption = "aws:kms"
-    source                 = "./site/index.html"
+    id                     = "index.html"
+    key                    = "index.html"
+    server_side_encryption = "AES256"
+    source                 = "site/index.html"
     storage_class          = "STANDARD"
-    tags                   = {}
     tags_all               = {}
+}
+
+# aws_s3_bucket_ownership_controls.example:
+resource "aws_s3_bucket_ownership_controls" "example" {
+    bucket = "steven-challenge3"
+    id     = "steven-challenge3"
+
+    rule {
+        object_ownership = "BucketOwnerPreferred"
+    }
+}
+
+# aws_s3_bucket_public_access_block.steven-chalenge3:
+resource "aws_s3_bucket_public_access_block" "steven-chalenge3" {
+    block_public_acls       = false
+    block_public_policy     = false
+    bucket                  = "steven-challenge3"
+    id                      = "steven-challenge3"
+    ignore_public_acls      = false
+    restrict_public_buckets = false
 }
 
 
 # module.s3.aws_acm_certificate.steven-challenge-cert:
 resource "aws_acm_certificate" "steven-challenge-cert" {
-    arn                       = "arn:aws:acm:us-east-1:950224154531:certificate/81600665-a47c-4f12-b4b3-0b9cc780d6a8"
+    arn                       = "arn:aws:acm:us-east-1:950224154531:certificate/46754614-9156-4cbb-a548-143db6ef496f"
     certificate_body          = <<-EOT
         -----BEGIN CERTIFICATE-----
         MIIF6zCCA9OgAwIBAgIUKQ1Cii+JH7lVG1HPVXDMhK8oweEwDQYJKoZIhvcNAQEL
@@ -370,7 +406,7 @@ resource "aws_acm_certificate" "steven-challenge-cert" {
         -----END CERTIFICATE-----
     EOT
     domain_validation_options = []
-    id                        = "arn:aws:acm:us-east-1:950224154531:certificate/81600665-a47c-4f12-b4b3-0b9cc780d6a8"
+    id                        = "arn:aws:acm:us-east-1:950224154531:certificate/46754614-9156-4cbb-a548-143db6ef496f"
     key_algorithm             = "RSA_4096"
     not_after                 = "2033-06-25T13:53:51Z"
     not_before                = "2023-06-28T13:53:51Z"

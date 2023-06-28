@@ -1,7 +1,9 @@
 # steven_challenege
+TLDR: Look for the SOLUTION.md in each project for the solution to each coding question
+
+--------------------------------------------------------------------------------------------------------------
 
 ## Infrastructure
-
 For this project, please think about how you would architect a scalable and secure static web application in AWS.
     • Create and deploy a running instance of a web server using a configuration management tool of your choice. The web server should serve one page with the following content.<br>
 ```

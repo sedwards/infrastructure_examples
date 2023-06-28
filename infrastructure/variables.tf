@@ -22,6 +22,12 @@ variable "bucket_name2" {
   default = "steven-challenge2"
 }
 
+variable "bucket_name3" {
+  default = "steven-challenge3"
+}
+
+#variable ownership { type = string }
+
 variable "domain" {
   default = "challenge.local"
 }

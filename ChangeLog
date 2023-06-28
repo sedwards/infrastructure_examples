@@ -1,4 +1,10 @@
-- Encrypt bucket with correct key stored in KMS
+Correctly track terraform state
+
+commit 559b8d74039b3ea706459bfc79d4d17797341aa1
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Wed Jun 28 00:26:30 2023 -0700
+
+    Encrypt bucket with correct key stored in KMS
 
 commit bdf43fb0e428c38bfaaf8ba7c2440e879e70a96e
 Author: Steven Edwards <winehacker@gmail.com>

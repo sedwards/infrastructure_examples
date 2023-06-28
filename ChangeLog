@@ -1,4 +1,10 @@
-Started Working on Certifcate Management for CloudFront
+Started implementing CloudFront
+
+commit 0b70d99309713a5f5cbf28a94a082599d3a033fa
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Wed Jun 28 03:00:16 2023 -0700
+
+    Started Working on Certifcate Management for CloudFront
 
 commit 59916dd0c3066ba2337a3aade3a4ae4a20ca9473
 Author: Steven Edwards <winehacker@gmail.com>

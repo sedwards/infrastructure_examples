@@ -21,3 +21,10 @@ variable "bucket_name" {
 variable "domain" {
   default = "challenge.local"
 }
+
+# This is wrong, but my accout is limited to us-east-2 for most 
+# resources.
+variable "aws_acm_certificate_arm" {
+  default = "some_arm_us_east_1"
+}
+

@@ -1,4 +1,10 @@
-Checkpoint, start work on s3 bucket
+- Encrypt bucket with correct key stored in KMS
+
+commit bdf43fb0e428c38bfaaf8ba7c2440e879e70a96e
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Tue Jun 27 23:55:59 2023 -0700
+
+    Checkpoint, start work on s3 bucket
 
 commit e75ad721c3c9677857253585a598fbb64a84a11a
 Author: Steven Edwards <winehacker@gmail.com>

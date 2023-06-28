@@ -1,1 +1,14 @@
-   - Documenting Challenge Requirements
+Terraform Scaffolding for s3, certificates, etc
+
+- Documenting Challenge Requirements
+commit 121584cd245070a9555ea9e2a164d4e5532971c8
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Tue Jun 27 20:22:02 2023 -0700
+
+    Document Challenge requirements
+
+commit 56f060af519349b27ae96af88ea9edd4bcb8ae50
+Author: sedwards <winehacker@gmail.com>
+Date:   Tue Jun 27 19:02:21 2023 -0700
+
+    Initial commit

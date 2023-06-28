@@ -1,4 +1,10 @@
-Expand out Go Credit Card Processor Example
+Checkpoint, start work on s3 bucket
+
+commit e75ad721c3c9677857253585a598fbb64a84a11a
+Author: Steven Edwards <winehacker@gmail.com>
+Date:   Tue Jun 27 22:17:18 2023 -0700
+
+    Expand out Go Credit Card Processor Example
 
 commit 64f4e469ebc36b25511a901633cba6bf3ae19eed
 Author: Steven Edwards <winehacker@gmail.com>

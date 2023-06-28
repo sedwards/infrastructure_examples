@@ -1,10 +1,10 @@
-resource "aws_cloudfront_distribution" "s3_distribution" {
+resource "aws_cloudfront_distribution" "static_http_distribution" {
   origin {
                                # fixme: We can derive this somehow
     domain_name              = "steven-challenge2.s3.us-east-2.amazonaws.com"
     # origin_access_control_id = aws_cloudfront_origin_access_control.default.id
     # s3_origin_config
-    origin_id               = "${aws_s3_bucket.steven-challenge-bucket2.bucket}"
+    origin_id               = "${aws_s3_bucket.steven-challenge-bucket.bucket}"
   }
 
   enabled             = true
@@ -19,13 +19,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   #  prefix          = "/"
   #}
 
-  aliases = ["steven-challenge.challenge.local", "steven-challenge.local"]
+  # FIXME: If we had a proper domain, route53 DNS and could use our own SSL
+  # We could do this
+  #aliases = ["steven-challenge.challenge.local", "steven-challenge.local"]
 
   default_cache_behavior {
     # allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket2.bucket}" 
+    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket.bucket}" 
 
     forwarded_values {
       query_string = false
@@ -41,12 +43,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     max_ttl                = 86400
   }
 
+  # Examples of ordered cache behavior
   # Cache behavior with precedence 0
   ordered_cache_behavior {
     path_pattern     = "/content/immutable/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket2.bucket}"
+    target_origin_id = "${aws_s3_bucket.steven-challenge-bucket.bucket}"
 
     forwarded_values {
       query_string = false
@@ -102,8 +105,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    # Self-Signed-Cert
-    acm_certificate_arn = "arn:aws:acm:us-east-1:950224154531:certificate/f058a6a1-e215-42bb-b5f4-104c9dd207b3"
+    # Cannot use a Self-Signed-Cert here due to chain validation
+    # acm_certificate_arn = "arn:aws:acm:us-east-1:950224154531:certificate/f058a6a1-e215-42bb-b5f4-104c9dd207b3"
+    #ssl_support_method = "sni-only" or "vip"
+    #ssl_support_method = "sni-only" # VIP dedicates IP address, at an additional cost 
   }
 }
 

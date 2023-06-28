@@ -14,6 +14,7 @@ import (
 /* TODO: Parse some command line args and provide some useful output */
 func main() {
 	/* TODO: Support passing command line file arg */
+	/* Scan the input file */
 	scan_file()
 
 	fmt.Printf("Scanning Complete\n")

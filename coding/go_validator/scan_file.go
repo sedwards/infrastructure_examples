@@ -20,7 +20,8 @@ func scan_file() {
 
     fmt.Printf("Using Pattern for regex\n: %v\n", re.String()) // print pattern
 
-    f, err := os.Open("../input/sample_input.txt")
+    f, err := os.Open("./input/sample_input.txt")
+    // o := os.Open("./output/go_sample_output.txt")
     if err != nil {
         log.Fatal(err)
     }

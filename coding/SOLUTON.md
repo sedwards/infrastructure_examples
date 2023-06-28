@@ -9,6 +9,16 @@ have to originate the solution to purely business application requirement.
 
 ### Golang Project
 
+/* Example credit to
+   https://www.golangprograms.com/regular-expression-to-validate-common-credit-card-numbers.html
+
+   Modified to support the example requirements of
+   https://www.hackerrank.com/challenges/validating-credit-card-number/problem
+*/
+
+
+
+
 ### Python Project
 
 

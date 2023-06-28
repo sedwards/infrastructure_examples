@@ -15,6 +15,10 @@ variable "region" {
 }
 
 variable "bucket_name" {
+  default = "steven-challenge"
+}
+
+variable "bucket_name2" {
   default = "steven-challenge2"
 }
 
